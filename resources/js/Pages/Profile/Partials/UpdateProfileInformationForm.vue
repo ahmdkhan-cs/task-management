@@ -3,7 +3,7 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import { Link, useForm, usePage } from '@inertiajs/vue3';
+import { Link, router, useForm, usePage } from '@inertiajs/vue3';
 
 defineProps({
     mustVerifyEmail: {
@@ -15,11 +15,24 @@ defineProps({
 });
 
 const user = usePage().props.auth.user;
+const errors = usePage().props.errors;
 
 const form = useForm({
     name: user.name,
     email: user.email,
+    image: user.image
 });
+
+const submit = () => {
+    router.post('/profile', {
+        _method: 'put',
+        name: form.name,
+        email: form.email,
+        image: form.image
+    });
+    
+}
+
 </script>
 
 <template>
@@ -32,7 +45,24 @@ const form = useForm({
             </p>
         </header>
 
-        <form @submit.prevent="form.patch(route('profile.update'))" class="mt-6 space-y-6">
+        <form @submit.prevent="submit" class="mt-6 space-y-6">
+            <div>
+                <InputLabel for="image" value="Image" />
+                <div class="h-52 flex gap-10 justify-center items-center">
+                    <div :class="`w-52 h-52 rounded-full bg-cover bg-[url('../storage/${user.image}')]`"></div>
+                    <div>
+                        <TextInput
+                        id="image"
+                        type="file"
+                        class="mt-1 block w-full px-1"
+                        @input="form.image = $event.target.files[0]" 
+                        />
+                    </div>
+                </div>
+                <!-- <img :src="`../storage/${user.image}`" alt=""> -->
+                
+                <InputError class="mt-2" :message="errors.image" />
+            </div>
             <div>
                 <InputLabel for="name" value="Name" />
 
@@ -46,7 +76,7 @@ const form = useForm({
                     autocomplete="name"
                 />
 
-                <InputError class="mt-2" :message="form.errors.name" />
+                <InputError class="mt-2" :message="errors.name" />
             </div>
 
             <div>
@@ -61,7 +91,7 @@ const form = useForm({
                     autocomplete="username"
                 />
 
-                <InputError class="mt-2" :message="form.errors.email" />
+                <InputError class="mt-2" :message="errors.email" />
             </div>
 
             <div v-if="mustVerifyEmail && user.email_verified_at === null">
