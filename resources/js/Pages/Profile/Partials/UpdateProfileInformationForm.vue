@@ -49,7 +49,8 @@ const submit = () => {
             <div>
                 <InputLabel for="image" value="Image" />
                 <div class="h-52 flex gap-10 justify-center items-center">
-                    <div :class="`w-52 h-52 rounded-full bg-cover bg-[url('../storage/${user.image}')]`"></div>
+                    <img :src="`../storage/${user.image}`" alt="user-img" class="w-52 h-52 rounded-full">
+                    <!-- <div :class="`w-52 h-52 rounded-full bg-cover bg-[url('../storage/${user.image}')]`"></div> -->
                     <div>
                         <TextInput
                         id="image"

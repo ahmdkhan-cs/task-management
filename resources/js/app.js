@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faFlag } from '@fortawesome/free-solid-svg-icons';
 
+
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
 library.add(faFlag);

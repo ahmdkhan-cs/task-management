@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\TasksController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -36,6 +37,9 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('/tasks', [TasksController::class, 'index'])->name('tasks');
+
+
+    Route::get('/projects', [ProjectsController::class, 'index'])->name('projects');
 });
 
 require __DIR__.'/auth.php';
